@@ -47,5 +47,21 @@ Congratulations!, you're ready to use fastlane in your project.
 
 ## Configuring fastlane with your project
 
-This tutorial uses a simple Android application called **My Avatar**. You can fin the source code [here on Github](https://github.com/devplanet-dp/my_avatar).
+This tutorial uses a simple Android application called **My Avatar**. You can fin the source code [here on Github](https://github.com/devplanet-dp/my_avatar). Go inside yout project's root directory and enter the comman below:
+
+```
+fastlane init
+```
+
+If the fastlane is installed succssefully installed in your environment, You will see a output like this:
+
+[!fastlane_inti output](https://i.imgur.com/AjDT4IY.png)
+
+Please enter your app unique [package name](https://developer.android.com/studio/build/application-id). This package name will be stored with fastlane for future tasks. Then you will be prompted to enter the path for service account **JSON** file. You are going to manage it later in this tutorial, So press **Enter** to skip for now. 
+
+Next fastlane will prompt **Do you plan on uploading metadata, screenshots, and builds to Google Play using fastlane?**. You can either create brandnew metadata and screenshots or download exisiting metadata and setup them. Press **n**, You will set up this later.  
+
+Once the fastlane completed installing required dependencies, you will prompted some guidlines and information on how to use fastlane with your project. You can press **Enter** and to continue. When you are done you can see a new directory **fastlane** is created inside your project containing:
+* **Appfile** - file containing your package and signing informations.
+* **Fastfile** - file containing automation configurations and lanes. 
 
