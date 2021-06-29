@@ -47,4 +47,5 @@ Congratulations!, you're ready to use fastlane in your project.
 
 ## Configuring fastlane with your project
 
+This tutorial uses a simple Android application called **My Avatar**. You can fin the source code [here on Github](https://github.com/devplanet-dp/my_avatar).
 
