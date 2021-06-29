@@ -95,3 +95,9 @@ platform :android do
   end
 end
 ```
+
+As you can see there are already three lanes: **test,beta,deplyo** inside the file.
+ 
+* **test** - Runs all the tests of the project using the (Gradle)[https://docs.fastlane.tools/actions/gradle/] action. 
+* **beta** - Submits a beta build to. Firebase App Distribution using **gradle** and (crashlytics)[https://docs.fastlane.tools/actions/crashlytics/] actions. 
+* **deploy** - Deploys a new release version to Google Play using **gradle** and ** (upload_to_play)(https://docs.fastlane.tools/actions/upload_to_play_store/) actions.
