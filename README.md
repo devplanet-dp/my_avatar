@@ -96,9 +96,9 @@ As you can see there are already three lanes: **test,beta,deploy** inside the fi
 * **beta** - Submits a beta build to. Firebase App Distribution using **gradle** and [crashlytics](https://docs.fastlane.tools/actions/crashlytics/) actions. 
 * **deploy** - Deploys a new release version to Google Play using **gradle** and ** [upload_to_play](https://docs.fastlane.tools/actions/upload_to_play_store/) actions.
 
-## Building app with fastlane
+## Building your app with fastlane
 
-You can user fastlane [gradle](https://docs.fastlane.tools/actions/gradle/) for all gradle related actions, including building and testing your Android app. Open the **Fastfile** and add following `build` lane and save the file:
+You can user fastlane [gradle](https://docs.fastlane.tools/actions/gradle/) for all gradle related actions, including building and testing your Android app. Open the **Fastfile** and add following the `build` lane and save the file:
 
 ```
 desc "Build"
@@ -107,14 +107,14 @@ lane :build do
 end
 ```
 
-To build the app with labe , open the Terminal inside your project folder and execute:
+To build the app with above created **lane** , open the Terminal inside your project folder and execute:
 
-`fastlane build`
+```fastlane build```
 
 Once you run the command, your app will clean and assembles. Note that this will assembles and build only the `release` `buildType`. The signing will be done according to way you have declared in the `release` closure. In this tutorial you haven't configured any signing key yet. You can forgot it for now, as you going to configure it later. 
 
 If your app builded successfully without errors, you will see the following messsage:
 
-`[13:37:40]: fastlane.tools finished successfully 🎉`
+```[13:37:40]: fastlane.tools finished successfully 🎉```
 
 
