@@ -109,12 +109,16 @@ end
 
 To build the app with above created **lane** , open the Terminal inside your project folder and execute:
 
-```fastlane build```
+```
+fastlane build
+```
 
 Once you run the command, your app will clean and assembles. Note that this will assembles and build only the `release` `buildType`. The signing will be done according to way you have declared in the `release` closure. In this tutorial you haven't configured any signing key yet. You can forgot it for now, as you going to configure it later. 
 
 If your app builded successfully without errors, you will see the following messsage:
 
-```[13:37:40]: fastlane.tools finished successfully 🎉```
+```
+[13:37:40]: fastlane.tools finished successfully 🎉
+```
 
 
