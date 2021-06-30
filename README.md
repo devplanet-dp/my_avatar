@@ -19,12 +19,6 @@ ruby -v
 ```
 If Ruby is not installed, follow [their instructions here](https://www.ruby-lang.org/en/documentation/installation/) to install it on your machine.
 
-Next step is setup the **XCode command-line tool(CLT)**. It can be enabled with following command: 
-```
-xcode-select --install
-```
-If CLT are already installed, you will get a message `xcode-select: error: command line tools are already installed, use "Software Update" to install updates`
-
 Now you're ready to install fastlane. So Run the following command:
 
 ```
@@ -66,7 +60,7 @@ Once the fastlane completed installing required dependencies, you will prompted 
 * **Appfile** - file containing your package and signing informations.
 * **Fastfile** - file containing automation configurations and lanes. 
 
-# Configuring Fastlane
+## Configuring Fastlane
 
 fastlane uses **Fastfile** to keep its automation configurations. fastlane groups different **actions** into **lanes**. A lane starts with `lane:name` where `name` is the name given to a lane. There is also **description** for a lane. Open the **Fastfile** and you will see:
 
@@ -101,3 +95,26 @@ As you can see there are already three lanes: **test,beta,deploy** inside the fi
 * **test** - Runs all the tests of the project using the [Gradle](https://docs.fastlane.tools/actions/gradle/) action. 
 * **beta** - Submits a beta build to. Firebase App Distribution using **gradle** and [crashlytics](https://docs.fastlane.tools/actions/crashlytics/) actions. 
 * **deploy** - Deploys a new release version to Google Play using **gradle** and ** [upload_to_play](https://docs.fastlane.tools/actions/upload_to_play_store/) actions.
+
+## Building app with fastlane
+
+You can user fastlane [gradle](https://docs.fastlane.tools/actions/gradle/) for all gradle related actions, including building and testing your Android app. Open the **Fastfile** and add following `build` lane and save the file:
+
+```
+desc "Build"
+lane :build do
+  gradle(task: "clean assembleRelease")
+end
+```
+
+To build the app with labe , open the Terminal inside your project folder and execute:
+
+`fastlane build`
+
+Once you run the command, your app will clean and assembles. Note that this will assembles and build only the `release` `buildType`. The signing will be done according to way you have declared in the `release` closure. In this tutorial you haven't configured any signing key yet. You can forgot it for now, as you going to configure it later. 
+
+If your app builded successfully without errors, you will see the following messsage:
+
+`[13:37:40]: fastlane.tools finished successfully 🎉`
+
+
