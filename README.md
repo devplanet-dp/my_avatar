@@ -170,8 +170,70 @@ You can find Insturmentation test class named **ExampleInstrumentedTest** inside
  
  ![New Test file](https://i.imgur.com/zaepGkI.png)
  
- For the name, enter **ExampleInstrumentedTest**. Select **Class** from the type and press. **Enter**.
+ For the name, enter **ExampleInstrumentedTest**. Select **Class** from the type and press **Enter**.
  
  Next, you can implement the test function by adding following methods:
  
- 
+ ```
+ package com.devplanet.myavatar
+
+import androidx.test.espresso.Espresso
+import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.rule.ActivityTestRule
+
+import org.junit.Test
+import org.junit.runner.RunWith
+
+import org.junit.Assert.*
+import org.junit.Rule
+import tools.fastlane.screengrab.Screengrab
+import tools.fastlane.screengrab.UiAutomatorScreenshotStrategy
+import tools.fastlane.screengrab.locale.LocaleTestRule
+
+/**
+ * Instrumented test, which will execute on an Android device.
+ *
+ * See [testing documentation](http://d.android.com/tools/testing).
+ */
+@RunWith(AndroidJUnit4::class)
+class ExampleInstrumentedTest {
+
+    // JVMField needed!
+    @Rule
+    @JvmField
+    val localeTestRule = LocaleTestRule()
+
+    @get:Rule
+    var activityRule = ActivityTestRule(MainActivity::class.java, false, false)
+
+    @Test
+    fun testTakeScreenshot() {
+        activityRule.launchActivity(null)
+        //1
+        Screengrab.setDefaultScreenshotStrategy(UiAutomatorScreenshotStrategy())
+
+        Espresso.onView(ViewMatchers.withId(R.id.genrateButton))
+            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        //2
+        Screengrab.screenshot("myAvatar_before_click")
+
+        //3
+        Espresso.onView(ViewMatchers.withId(R.id.genrateButton))
+            .perform(ViewActions.click())
+
+        //4
+        Screengrab.screenshot("myAvatar_after_click")
+    }
+
+    @Test
+    fun useAppContext() {
+        // Context of the app under test.
+        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
+        assertEquals("com.devplanet.myavatar", appContext.packageName)
+    }
+}
+```
