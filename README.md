@@ -172,7 +172,7 @@ You can find Insturmentation test class named **ExampleInstrumentedTest** inside
  
  For the name, enter **ExampleInstrumentedTest**. Select **Class** from the type and press **Enter**.
  
- Next, you can implement the test function by adding following methods:
+ Next, you can implement the test function by adding following methods for **AndroidJUnit4** test:
  
  ```
  package com.devplanet.myavatar
@@ -213,19 +213,19 @@ class ExampleInstrumentedTest {
     @Test
     fun testTakeScreenshot() {
         activityRule.launchActivity(null)
-        //1
+        //prepares to take a screenshot of the app
         Screengrab.setDefaultScreenshotStrategy(UiAutomatorScreenshotStrategy())
 
         Espresso.onView(ViewMatchers.withId(R.id.genrateButton))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        //2
+        //Takes screenshot of the first screen
         Screengrab.screenshot("myAvatar_before_click")
 
-        //3
+        //Trigger the generate button onClick function
         Espresso.onView(ViewMatchers.withId(R.id.genrateButton))
             .perform(ViewActions.click())
 
-        //4
+        //Takes another screenshot
         Screengrab.screenshot("myAvatar_after_click")
     }
 
@@ -237,3 +237,13 @@ class ExampleInstrumentedTest {
     }
 }
 ```
+
+ Now you have created a instrumention test for capturing screenshot.In order to run this test you need assemble the test and create and **test APK** file. 
+
+Run the following command:
+ 
+```
+./gradlew assembleDebug assembleAndroidTest
+``` 
+ 
+ 
