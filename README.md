@@ -140,4 +140,5 @@ Before proceeding for the automation you need to add following permissions to yo
   <uses-permission xmlns:tools="http://schemas.android.com/tools"
     android:name="android.permission.CHANGE_CONFIGURATION"
     tools:ignore="ProtectedPermissions" />
-    ```
+    
+```    
