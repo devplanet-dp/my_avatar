@@ -143,7 +143,7 @@ Before proceeding for the automation you need to add following permissions to yo
         tools:ignore="ProtectedPermissions" />
     
 ```    
-Now you have added required permissions. In order to take screenshots you need to have UI test. You can use [Instrumentation Testing](https://developer.android.com/training/testing/unit-testing/instrumented-unit-tests) toolchain to set up screenshot automation. Before you begin open **app/build.gradle** and add the following `dependecies`:
+Now you have added required permissions. You can use [Instrumentation Testing](https://developer.android.com/training/testing/unit-testing/instrumented-unit-tests) toolchain to set up screenshot automation. Before you begin open **app/build.gradle** and add the following `dependecies`:
 
 ```
 testImplementation 'junit:junit:4.13.2'
@@ -162,4 +162,10 @@ Next, Inside `defaultConfig` block, add `testInstrumentationRunner`:
 testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
 ```
 
-Now sync Gradle before moving on. These are the dependecies which are needed for fastlane to run the tests and generate screenshots. 
+Now sync **gradle** before moving on. These are the dependecies which are needed for fastlane to run the tests and generate screenshots. 
+
+### Configuring Instrumentation Tests
+
+You can find Insturmentation test class named **ExampleInstrumentedTest** inside your project's **app/src/androidTest/**. If you can not find any test classes you can create a new test file. Righ-click on **<your package name>(androidTest)** and select **New -> Kotlin File/Class:**.
+ 
+ [!New Test file](https://i.imgur.com/zaepGkI.png)
