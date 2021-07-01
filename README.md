@@ -246,7 +246,7 @@ Run the following command:
 ./gradlew assembleDebug assembleAndroidTest
 ``` 
  
- When the gradle completed execution you can find the test APK under **app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk**. You will use this APK to configure fastlane screengrab to create screenshots automatically.
+ When the gradle completed execution you can find the test APK under **app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk**. This command will also create you a normal **app-debug.apk**. You will use these APKs to configure fastlane screengrab to create screenshots automatically.
  
  ### Creating Screenshots
  
@@ -258,5 +258,35 @@ Run the following command:
  fastlane screengrab init
  ```
  
- Once. the command executed succssfully, You will prompt a message that `Successfully created new Screengrabfile at './fastlane/Screengrabfile'`.  Now go inside the **fastlane** directory. You will see a newly created **Screengrabfile**, this is where you will save screengrab configurations. 
+ Once. the command executed succssfully, You will prompt a message that `Successfully created new Screengrabfile at './fastlane/Screengrabfile'`.  Now go inside the **fastlane** directory. You will see a newly created **Screengrabfile**, this is where you will save your **screengrab** configurations.
+ 
+ Open the **Screengrabfile** and replace with the content below and save:
+ ```
+ # 1
+android_home('$PATH')
+
+# 2
+use_adb_root(true)
+
+# 3
+app_package_name('com.devplanet.myavatar')
+
+# 4
+app_apk_path('app/build/outputs/apk/debug/app-debug.apk')
+tests_apk_path('app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk')
+
+# 5
+locales(['en-US', 'fr-FR', 'it-IT'])
+
+# 6
+clear_previous_screenshots(true)
+ ```
+ 
+ Here is what this commands does:
+ 1. **android_home**: Sets tha path to the Android SDK.
+ 2. **use_adb_root**: Starts adb in root mode, giving you elevated permissions to writing to the device.
+ 3. **app_package_name**: Your project's package name.
+ 4. **app_apk_path and tests_apk_path **: Paths for APK files, which you created in the previous section.
+ 5. **locales**: Locales where you want to create screenshots. You can add locales as you required.
+ 6. **clear_previous_screenshots**: Clears all previously-generated screenshots in your local output directory before creating new ones.
 
