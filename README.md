@@ -247,3 +247,16 @@ Run the following command:
 ``` 
  
  When the gradle completed execution you can find the test APK under **app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk**. You will use this APK to configure fastlane screengrab to create screenshots automatically.
+ 
+ ### Creating Screenshots
+ 
+ As you already know you are going to use fastlane **screengrab** to automate screenshots. First you need to initialise **screengrab** inside your project. 
+ 
+ Run the following command inside your project's root directory.
+ 
+ ```
+ fastlane screengrab init
+ ```
+ 
+ Once. the command executed succssfully, You will prompt a message that `Successfully created new Screengrabfile at './fastlane/Screengrabfile'`.  Now go inside the **fastlane** directory. You will see a newly created **Screengrabfile**, this is where you will save screengrab configurations. 
+
