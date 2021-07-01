@@ -128,17 +128,38 @@ How if you could create hundreds of screenshots by a single command on Terminal.
 Before proceeding for the automation you need to add following permissions to your **src/debug/AndroidManifest.xml**.
 
 ```
- <!-- Allows unlocking your device and activating its screen so UI tests can succeed -->
-  <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
-  <uses-permission android:name="android.permission.WAKE_LOCK" />
+<!-- Allows unlocking your device and activating its screen so UI tests can succeed -->
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
-  <!-- Allows for storing and retrieving screenshots -->
-  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!-- Allows for storing and retrieving screenshots -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
-  <!-- Allows changing locales -->
-  <uses-permission xmlns:tools="http://schemas.android.com/tools"
-    android:name="android.permission.CHANGE_CONFIGURATION"
-    tools:ignore="ProtectedPermissions" />
+    <!-- Allows changing locales -->
+    <uses-permission
+        android:name="android.permission.CHANGE_CONFIGURATION"
+        tools:ignore="ProtectedPermissions" />
     
 ```    
+Now you have added required permissions. In order to take screenshots you need to have UI test. You can use [Instrumentation Testing](https://developer.android.com/training/testing/unit-testing/instrumented-unit-tests) toolchain to set up screenshot automation. Before you begin open **app/build.gradle** and add the following `dependecies`:
+
+```
+testImplementation 'junit:junit:4.13.2'
+    
+androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+androidTestImplementation 'androidx.test:rules:1.4.0'
+
+androidTestImplementation 'tools.fastlane:screengrab:2.0.0'
+```    
+
+Your project may already have some of these `dependencies` which are initially added when project creation. 
+
+Next, Inside `defaultConfig` block, add `testInstrumentationRunner`:
+```
+testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+```
+
+Now sync Gradle before moving on. These are the dependecies which are needed for fastlane to run the tests and generate screenshots. 
