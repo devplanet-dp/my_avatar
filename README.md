@@ -246,4 +246,4 @@ Run the following command:
 ./gradlew assembleDebug assembleAndroidTest
 ``` 
  
- When the gradle completed execution you can find the test APK under app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk**. You will use this APK to configure fastlane screengrab to create screenshots automatically.
+ When the gradle completed execution you can find the test APK under **app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk**. You will use this APK to configure fastlane screengrab to create screenshots automatically.
