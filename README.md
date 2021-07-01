@@ -121,4 +121,23 @@ If your app builded successfully without errors, you will see the following mess
 [13:37:40]: fastlane.tools finished successfully 🎉
 ```
 
+## Screenshots with Screengrab
 
+How if you could create hundreds of screenshots by a single command on Terminal. This will save your hours of time. You will only need to configure it once and anyone on your team can run it. Fastlane uses [screengrab](https://docs.fastlane.tools/actions/screengrab/) to automatically generate localized screenshots of your Android app. These can be generated for different device types. 
+
+Before proceeding for the automation you need to add following permissions to your **src/debug/AndroidManifest.xml**.
+
+```
+ <!-- Allows unlocking your device and activating its screen so UI tests can succeed -->
+  <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+  <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+  <!-- Allows for storing and retrieving screenshots -->
+  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+  <!-- Allows changing locales -->
+  <uses-permission xmlns:tools="http://schemas.android.com/tools"
+    android:name="android.permission.CHANGE_CONFIGURATION"
+    tools:ignore="ProtectedPermissions" />
+    ```
