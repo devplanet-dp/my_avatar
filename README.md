@@ -168,4 +168,10 @@ Now sync **gradle** before moving on. These are the dependecies which are needed
 
 You can find Insturmentation test class named **ExampleInstrumentedTest** inside your project's **app/src/androidTest/**. If you can not find any test classes you can create a new test file. Righ-click on **<your package name>(androidTest)** and select **New -> Kotlin File/Class:**.
  
- [!New Test file](https://i.imgur.com/zaepGkI.png)
+ ![New Test file](https://i.imgur.com/zaepGkI.png)
+ 
+ For the name, enter **ExampleInstrumentedTest**. Select **Class** from the type and press. **Enter**.
+ 
+ Next, you can implement the test function by adding following methods:
+ 
+ 
