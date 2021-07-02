@@ -254,7 +254,7 @@ class ExampleInstrumentedTest {
  ```
  To run **Screengrab** it requires `-debug.apk` and `-debug-AndroidTest.apk`.You can generate them by building the project with `./gradlew assembleDebug assembleAndroidTest` gradle task. After successfull build, you can find both the **APKs** inside project's `/app.build/outputs/apk/`. 
  
- ### Configuring fastlane with screengrab
+ ### Configuring screengrab
  
  Go inside the **fastlane** directory. You will see a newly created **Screengrabfile**, this is where you will save your **screengrab** configurations.
  Open the **Screengrabfile** and replace with the content below and save:
@@ -294,5 +294,34 @@ clear_previous_screenshots(true)
  
  Note: If you run an emulator with API 24 or above, you must configure it with the **Google APIs** target. An emulator with **Google Play** won’t work because adb needs to run as root. That’s only possible with the Google APIs target.You can read more [here](https://developer.android.com/studio/run/managing-avds) on creating an emulator. However, if you run a device or emulator with API 23 or below, either option will work. See [comment #15788](https://github.com/fastlane/fastlane/issues/15788) under fastlane issues for more information.
  
+ ### Adding a Lane
  
+ Open the **Fastfile** and add a new lane to create screenshots:
 
+```
+ desc "Build debug,test APK for screenshots and grab screenshots"
+lane :grab_screens do
+  gradle(
+    task: 'clean'
+  )
+  gradle(
+    task: 'assemble',
+    build_type: 'Debug'
+  )
+  gradle(
+    task: 'assemble',
+    build_type: 'AndroidTest'
+  )
+ screengrab
+end
+ ```
+ 
+ From now you can run this lane and create new screenshots. Run following command:
+ 
+ ```
+ fastlane grab_screens
+ ```
+ 
+ This will start the screenshot-grabbing process. You will see some errors, just ignore them. When the execution completed successfully, it will open your screenshots on your browser. You also can find them inside `/fastfile/metadata/` directory. 
+ 
+ Congratulations!you have created screenshots with fastlane. It's time to keep your screenshots perfectly up-yo-date with every app update. You only have to do is run the lane.
