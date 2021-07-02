@@ -444,3 +444,6 @@ The users in your test group also will receive an email with instruction, like b
 ![Beta email](https://i.imgur.com/uxMHayk.png)
 
 Congratulations! You deployed your **beta** build to your testers with fastlane. Next time you can send updates with a single command on Terminal. You can read more about avaialble options with `firebase_app_distribution` on official documentation [here.](https://firebase.google.com/docs/app-distribution/android/distribute-fastlane)
+
+## Releasing to the Play Console
+
