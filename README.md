@@ -238,29 +238,27 @@ class ExampleInstrumentedTest {
 }
 ```
 
- Now you have created a instrumention test for capturing screenshot.In order to run this test you need assemble the test and create and **test APK** file. 
-
-Run the following command:
+ Now you have created a instrumention test for capturing screenshot.Next you can setup a **lane** to automate screenshots.
  
-```
-./gradlew assembleDebug assembleAndroidTest
-``` 
+ ### Installing Screengrab
  
- When the gradle completed execution you can find the test APK under **app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk**. This command will also create you a normal **app-debug.apk**. You will use these APKs to configure fastlane screengrab to create screenshots automatically.
+ As you already know you are going to use fastlane **screengrab** to automate screenshots. First you need to install **Screengrab**, you can do it via **gem**:
+ ```
+ sudo gem install screengrab
+ ```
  
- ### Creating Screenshots
- 
- As you already know you are going to use fastlane **screengrab** to automate screenshots. First you need to initialise **screengrab** inside your project. 
- 
- Run the following command inside your project's root directory.
+ Next initialize **screebgrab** by running following command inside your project:
  
  ```
  fastlane screengrab init
  ```
+ To run **Screengrab** it requires `-debug.apk` and `-debug-AndroidTest.apk`.You can generate them by building the project with `./gradlew assembleDebug assembleAndroidTest` gradle task. After successfull build, you can find both the **APKs** inside project's `/app.build/outputs/apk/`. 
  
- Once. the command executed succssfully, You will prompt a message that `Successfully created new Screengrabfile at './fastlane/Screengrabfile'`.  Now go inside the **fastlane** directory. You will see a newly created **Screengrabfile**, this is where you will save your **screengrab** configurations.
+ ### Configuring fastlane with screengrab
  
+ Go inside the **fastlane** directory. You will see a newly created **Screengrabfile**, this is where you will save your **screengrab** configurations.
  Open the **Screengrabfile** and replace with the content below and save:
+ 
  ```
  # 1
 android_home('$PATH')
@@ -286,7 +284,17 @@ clear_previous_screenshots(true)
  1. **android_home**: Sets tha path to the Android SDK.
  2. **use_adb_root**: Starts adb in root mode, giving you elevated permissions to writing to the device.
  3. **app_package_name**: Your project's package name.
- 4. **app_apk_path and tests_apk_path **: Paths for APK files, which you created in the previous section.
+ 4. **app_apk_path and tests_apk_path **: Paths for APK files, which you are creating via fastlane.
  5. **locales**: Locales where you want to create screenshots. You can add locales as you required.
  6. **clear_previous_screenshots**: Clears all previously-generated screenshots in your local output directory before creating new ones.
+ 
+### Running test on Emulator or Device
+ 
+ To capture screenshots, fastlane will need to run your **APK* on a Emulator or Device. 
+ 
+ ```
+ Note: If you run an emulator with API 24 or above, you must configure it with the **Google APIs** target. An emulator with **Google Play** won’t work because adb needs to run as root. That’s only possible with the Google APIs target.You can read more [here](https://developer.android.com/studio/run/managing-avds) on creating an emulator. However, if you run a device or emulator with API 23 or below, either option will work. See [comment #15788](https://github.com/fastlane/fastlane/issues/15788) under fastlane issues for more information.
+ ```
+ 
+ 
 
