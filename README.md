@@ -290,11 +290,9 @@ clear_previous_screenshots(true)
  
 ### Running test on Emulator or Device
  
- To capture screenshots, fastlane will need to run your **APK* on a Emulator or Device. 
+ To capture screenshots, fastlane will need to run your **APK**s on a Emulator or Device. 
  
- ```
  Note: If you run an emulator with API 24 or above, you must configure it with the **Google APIs** target. An emulator with **Google Play** won’t work because adb needs to run as root. That’s only possible with the Google APIs target.You can read more [here](https://developer.android.com/studio/run/managing-avds) on creating an emulator. However, if you run a device or emulator with API 23 or below, either option will work. See [comment #15788](https://github.com/fastlane/fastlane/issues/15788) under fastlane issues for more information.
- ```
  
  
 
