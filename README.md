@@ -295,7 +295,7 @@ clear_previous_screenshots(true)
  
  To capture screenshots, fastlane will need to run your **APK**s on a Emulator or Device. 
  
- Note: If you run an emulator with API 24 or above, you must configure it with the **Google APIs** target. An emulator with **Google Play** won’t work because adb needs to run as root. That’s only possible with the Google APIs target.You can read more [here](https://developer.android.com/studio/run/managing-avds) on creating an emulator. However, if you run a device or emulator with API 23 or below, either option will work. See [comment #15788](https://github.com/fastlane/fastlane/issues/15788) under fastlane issues for more information.
+> Note: If you run an emulator with API 24 or above, you must configure it with the **Google APIs** target. An emulator with **Google Play** won’t work because adb needs to run as root. That’s only possible with the Google APIs target.You can read more [here](https://developer.android.com/studio/run/managing-avds) on creating an emulator. However, if you run a device or emulator with API 23 or below, either option will work. See [comment #15788](https://github.com/fastlane/fastlane/issues/15788) under fastlane issues for more information.
  
  ### Adding a Lane
  
@@ -328,3 +328,59 @@ end
  This will start the screenshot-grabbing process. You will see some errors, just ignore them. When the execution completed successfully, it will open your screenshots on your browser. You also can find them inside `/fastfile/metadata/` directory. 
  
  Congratulations!you have created screenshots with fastlane. It's time to keep your screenshots perfectly up-yo-date with every app update. You only have to do is to run the lane.
+
+## Beta App Distribution with fastlane
+
+When you have a new update ready, you may want to share it with beta testers to get feedback before releasing to the production. To do that you have to upload your Android app to a app ditribution provider. Fastlane allows you to [beta app deplyoment](https://docs.fastlane.tools/getting-started/android/beta-deployment/) with multiple beta app providers. 
+
+The supported beta testing services with fastlane are:
+
+ - Google play
+ - Firebase App Distribution
+
+Your next step is to distrubute your app with [Firebase App Distribution](https://firebase.google.com/docs/app-distribution), which makes app distributing painless and provides a better user management experience. 
+
+### Using Firebase CLI
+
+To get started, you have to add your project to Firebase. Open your browser and go to [Firebase](https://firebase.google.com). To create a new project, click on **Go to Console** button on top-right of the screen. Then create a new Firebase project by clicking on **Add project**:
+
+![Add firebase project](https://i.imgur.com/Ke24cP8.png)
+
+Give a project name and continue. Once the project creation is completed you can click on **continue** to view the project's console. 
+
+Fastlane uses **Firebasse CLI** to upload your builds to Firebase App Ditribution.  Please follow the instruction [here](https://firebase.google.com/docs/cli) to install Firebase CLI on your OS.
+
+After the installation completed, sign in to your Firebase account using the command below:
+```
+firebase login
+```
+Before proceeding with Firebase App Distribution you need to install the firebase plugin to fastlane. 
+
+Run the following command:
+
+```
+fastlane add_plugin firebase_app_distribution
+```
+ 
+ Your Terminal will prompt you like this:
+
+```
+[17:45:48]: Plugin 'fastlane-plugin-firebase_app_distribution' was added to './fastlane/Pluginfile'
+
+[17:45:48]: It looks like fastlane plugins are not yet set up for this project.
+
+[17:45:48]: fastlane will modify your existing Gemfile at path '/Users/niroshana/Desktop/fastlane-Android/project/Gemfile'
+
+[17:45:48]: This change is necessary for fastlane plugins to work
+
+[17:45:48]: Should fastlane modify the Gemfile at path '/Users/niroshana/Desktop/fastlane-Android/project/Gemfile' for you? (y/n)
+```
+
+Press `y` to install the plugin and continue. 
+
+Now you have installed the plugin successfully. Next you to have to **Add Firebase to your Android app**. You can follow these [steps here](https://firebase.google.com/docs/android/setup) to add Firebase to your project. 
+
+Once you are completed with adding Firebase, open the [General Settings [age](https://console.firebase.google.com/u/0/project/_/settings/general) and copy down your **App ID**, you are going to need it later. 
+
+![App ID](https://i.imgur.com/fe927OA.png)
+
