@@ -384,3 +384,63 @@ Once you are completed with adding Firebase, open the [General Settings [age](ht
 
 ![App ID](https://i.imgur.com/fe927OA.png)
 
+Now you can create groups with different users and release beta versions to them. In order to do that navigate to **App Distribution** tab and press **Get Started**.
+
+![App Distribution](https://i.imgur.com/4DNQESk.png)
+
+Then go to the **Testers and Groups** tab and create a group. You can name it as **group-one**. 
+
+![Add group](https://i.imgur.com/tNCvtfQ.png)
+
+Finally, you can add **testers**,  It is better to enter your email to add yourself as a tester.  Once all done, you are ready to upload your first **beta build** with fastlane. 
+
+###  Deploying for Beta Testing
+
+Open **Fastfile** and replace `beta` lane with following configurations. Remember to replace `app` with your **App ID** you copied previously:
+
+```
+desc "Submit a new Beta Build to Firebase App Distribution"
+lane :beta do
+  build
+
+  firebase_app_distribution(
+      app: "1:733973662153:android:96a0d652bf41e0ca784018",
+      groups: "group-one",
+      release_notes: "Lots of new avatars to try out!"
+  )
+end
+```
+
+The above `beta` lane will upload your build to **group-one** test group.  On your Terminal run the `beta` lane. 
+
+```
+fastlane beta
+```
+
+When the execution is completed, you can see the following output:
+
+```
+[19:38:15]: 🔐 Authenticated successfully.
+
+[19:38:18]: ⌛ Uploading the APK.
+
+[19:38:33]: ✅ Uploaded the APK.
+
+[19:38:35]: ✅ Posted release notes.
+
+[19:38:37]: ✅ Added testers/groups.
+
+[19:38:37]: 🎉 App Distribution upload finished successfully.
+------
+[19:38:37]: fastlane.tools finished successfully 🎉
+```
+
+Please navigate to [Firebase App Distribution](https://console.firebase.google.com/u/0/project/_/appdistribution), you can see the build is available on console:
+
+![Beta build](https://i.imgur.com/Mzg9lNG.png)
+
+The users in your test group also will receive an email with instruction, like below:
+
+![Beta email](https://i.imgur.com/uxMHayk.png)
+
+Congratulations! You deployed your **beta** build to your testers with fastlane. Next time you can send updates with a single command on Terminal. You can read more about avaialble options with `firebase_app_distribution` on official documentation [here.](https://firebase.google.com/docs/app-distribution/android/distribute-fastlane)
