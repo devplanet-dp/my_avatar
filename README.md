@@ -447,3 +447,100 @@ Congratulations! You deployed your **beta** build to your testers with fastlane.
 
 ## Releasing to the Play Console
 
+Finally, you have come to releasing you app to users. Before proceeding, you need have a purchased **Google Play** account. If you don't have one, you can create one from [here](https://play.google.com/console/u/0/signup).
+
+Fastlane uses [supply](https://docs.fastlane.tools/actions/supply/) to upload app metadata, screenshots and binaries to Google Play. **Supply** need to have at least one version uploaded in the Google Play Console, because fastlane cannot create a new listing on the Play Store. 
+
+### Creating your app
+You can follow the steps on official [Play Console Help](https://support.google.com/googleplay/android-developer/answer/9859152?hl=en) to create and set up your app.
+
+Once you have created your app on Play Console, you have to upload your app to one of the available tracks so the Play Console knows your app's **package** name. Remember that you do not need to publish the app.
+
+### Configure signing in gradle
+
+Android requires that all APKs or App Bundles be digitally signed with a certificatie before they are uploaded to Play Console. If you haven't generated a **upload key** yet, you can follow the steps [here](https://developer.android.com/studio/publish/app-signing).
+
+When you have your key, best practice is to remove signing information from your build files. So it is not easily accessible to others. To do this, you should create a separate **properties** file to keep key information and refer to that file in your build files. Navigate to your app's `build.grdle` file add add following configurations.
+
+Add a reference to **key.properties**  file inside build gradle before the `android` block:
+
+```
+def keystoreProperties = new Properties()  
+def keystorePropertiesFile = rootProject.file('key.properties')  
+if (keystorePropertiesFile.exists()) {  
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))  
+}
+```
+Now, you can configure a single signing configuration for your **release** build type as below. 
+```
+signingConfigs {  
+  release {  
+  keyAlias keystoreProperties['keyAlias']  
+        keyPassword keystoreProperties['keyPassword']  
+        storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null  
+  storePassword keystoreProperties['storePassword']  
+    }  
+}  
+  
+buildTypes {  
+  release {  
+  signingConfig signingConfigs.release  
+        minifyEnabled false  
+  proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'  
+  }  
+}
+```
+
+Once you have configured your app signing, your gradle will take care of App Signing on every release build automatically. 
+
+### Building Android App Bundle
+
+Currently, [Android App Bundles](https://developer.android.com/platform/technology/app-bundle) are preffered over APKs. You can modify **Fastfile** to build an **app bundle** for you. 
+
+Locate your **Fastfile** and add following lane:
+
+```
+  desc "Build release app bundle"
+ lane :build_bundle do
+  gradle(task: "clean bundleRelease")
+ end
+ ```
+
+Next, execute the lane on Terminal:
+
+```
+fastlane build_bundle
+```
+
+Once the execution completed, you can find your bundle in you apps build directory. The default location is `app/build/outputs/bundle/release`.
+You can use this bundle file to upload to Play Console. 
+
+Now, go to Play Console and select **Production** track and create a release. 
+
+![Create a release](https://i.imgur.com/SvLVYpQ.png)
+
+
+You can enable **Play App Signing** and upload your **app-release.aab** bundle file created previously.  Since this is your first upload of your app, you can provide short description regarding this release on **Release notes**.  Tap on **save** and naviagte to **All apps** where your list of apps appear, you can see your app is available with your package name. 
+
+For now you have completed uploading your first build manually to Play Store. Next you can move to automate this process with fastlane. 
+
+### Creating Play Console Credentials
+
+In order to connect fastlane with Play Console, you need to provide appropriate access with credentials. To achieve this, all you need is an **API key** file. This file contains the credentials that fastlane uses to connect to your Play Console account. 
+
+To create a key file, please follow these steps from the [fastlane official documentaion](https://docs.fastlane.tools/getting-started/android/setup/#collect-your-google-credentials)
+
+When you have a key file created from following previous steps, you can connect fastlane with your Play Console APIs.
+
+ Run this command and verify your key file:
+ ```
+ fastlane run validate_play_store_json_key json_key:/path/to/your/downloaded/file.json
+ ```
+
+If the Play Store connected successfully with your key file, your Terminal will prompt you a message:
+```
+Successfully established connection to Google Play Store.
+```
+
+
+
