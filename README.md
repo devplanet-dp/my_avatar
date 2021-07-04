@@ -537,10 +537,111 @@ When you have a key file created from following previous steps, you can connect 
  fastlane run validate_play_store_json_key json_key:/path/to/your/downloaded/file.json
  ```
 
-If the Play Store connected successfully with your key file, your Terminal will prompt you a message:
+If the Play Store connected successfully with your key file, your Terminal will prompt the message below:
 ```
 Successfully established connection to Google Play Store.
 ```
 
+Now it is time to add key file to **fastlane**. Open **fastlane/Appfile** and update `json_key_file` property with your key file location. In this tutorial it is located inside the **root** directoy of the project:
+```
+json_key_file("./api-key.json")
+```
 
+### Updating Metadata
 
+Fastlane have the feature to uploading your app's metadata including screenshots, descriotion and release notes. This is the best way to manage your metadata perfectly upto-date with every release. 
+
+In order to update your metadata, first you need to download your app's exisiting metadata in **Play Store** in to your local.  You only have to do is run 
+the following code:
+```
+fastlane supply init
+```
+
+> If you followed the previous steps on creating screenshots in this tutorial, you will already have a screenshot directory created. Please remove that folder before initialising supply.
+
+This command will download any exisiting content from your  **Play Store Console**. You can see the following output , when the execution completed successfully:
+```
+[21:19:56]: 🕗  Downloading metadata, images, screenshots...
+
+[21:19:59]: 📝  Downloading metadata (en-US)
+
+[21:19:59]: Writing to fastlane/metadata/android/en-US/title.txt...
+
+[21:19:59]: Writing to fastlane/metadata/android/en-US/short_description.txt...
+
+[21:19:59]: Writing to fastlane/metadata/android/en-US/full_description.txt...
+
+[21:19:59]: Writing to fastlane/metadata/android/en-US/video.txt...
+
+[21:19:59]: 🖼️  Downloading images (en-US)
+
+[21:19:59]: Downloading `featureGraphic` for en-US...
+
+[21:19:59]: Downloading `icon` for en-US...
+
+[21:20:00]: Downloading `tvBanner` for en-US...
+
+[21:20:01]: Downloading `phoneScreenshots` for en-US...
+
+[21:20:01]: Downloading `sevenInchScreenshots` for en-US...
+
+[21:20:02]: Downloading `tenInchScreenshots` for en-US...
+
+[21:20:03]: Downloading `tvScreenshots` for en-US...
+
+[21:20:03]: Downloading `wearScreenshots` for en-US...
+
+[21:20:06]: Found '1 (1.0)' in 'production' track.
+
+[21:20:06]: 🔨  Downloading changelogs (en-US, 1 (1.0))
+
+[21:20:06]: Writing to fastlane/metadata/android/en-US/changelogs/1.txt...
+
+[21:20:07]: ✅  Successfully stored metadata in 'fastlane/metadata/android'
+```
+
+You can see, your downloaded contenet is available at `fastlane/metadata/android` . Next time when you updating your app's metadata, you only have to update these local files. 
+
+For example, You can run the lane you created  previously to generate screenshots .
+```
+fastlane capture_screen
+```
+Now, you will see your screenshots in `metadata/android/en-US/images/phoneScreenshots`. Run the following command to upload changes:
+```
+fastlane supply --skip_upload_changelogs
+```
+The `--skip_upload_changelogs` property skips uploading changelogs. It means you do not have to increment your app's **version code** when updating the metadata. 
+
+When the command runs successfully, naviaget to your **Play Console**  and inside your app's **Main Store listing** you can see the screenshots. 
+
+![Play Console screenshots](https://i.imgur.com/TU3CveC.png)
+
+Congratulations!, You have now configured fastlane to retrieve and update app metdata. Your next step is to upload a build to **Play Store**.
+
+### Deploying to Play Store
+
+In previous section, you created a  **Android App Bundle**  and uploaded it to **Play Console** manuallay. Here after, you can do it running a single command on your Terminal. 
+
+Update your **deploy** lane inside **Fastfile** with following configurations:
+```
+desc "Deploy a new version to the Google Play"
+  lane :deploy do
+    #1
+    build_bundle
+    #2
+    upload_to_play_store(release_status:"draft")
+  end
+  ```
+
+ 1. **build_bundle**: The build release app bundle lane created by you previously. Remeber to increment your app's `version_code` on every release.
+ 2. **upload_to_play_store**: Uploads Android App Bundle to Play Console. `release_status` property is used to maintain the status of the  apks/aabs when uploaded. You can find more pramaters avaialble on **supply** [here](https://docs.fastlane.tools/actions/supply/) .
+
+Now you can just run ``fastlane deploy`` and fastlane will take care everything in your new release. When the  command completes, you can see your new build is appear in **Play Console**.
+
+## Conclusion
+
+In this tutorial you built a Pipeline for Android development workflows using  **fastlane**. It adds value to your regular Android development workflow by saving hours of time that you have spended on building, testing and releasing apps. You can make your automation task more advanced and suited for your exact needs when you become comfortable with it.
+
+If you are interested in other ways to handle this and get more ideas, check out  [official documentation](https://fastlane.tools/). Hopefully you got an idea on how you could automate your next iOS project.
+
+[Runway](https://www.runway.team/features)  has bring the automation process of mobile app development into a next level. It is designed to work as an integration layer across all the team’s tools. This bring more value to you rather than seeing all them in Terminal. How if you can schedule an automatic release?. Yes it is achievable with Runway. There are many advanced features with  **Runway**  where you can thinking to switch from  **Fastlane**  such as visualizing and sharing the release progress with your team members, scheduling a release, handling App Store Connect and Google Play Console in one place and many more. Every team member can see exactly where they are in the release cycle and what still needs to be done. Finally  **Runway**  is a tool that is worth trying with your mobile development.
