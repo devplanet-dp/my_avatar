@@ -1,6 +1,8 @@
 # How to Build the Perfect fastlane Pipeline for Android
 
-During a typical Android app development cycle every time you release or uodate your app, you have to build sign apk and add to Play Store then add metadata like screenshots, description, etc. It is the same thing but you have to repeat it every time you publish your app.  The good news is you can automate these tasks, saving your time for new features and bug fixing. All you have to do is use [Fastlane](https://fastlane.tools).
+During a typical Android app development cycle every time when you release or update your app, you have to assemble the source code into **APK** or **App Bundle** which you deploy to the Play Store. It seems like a simple process but there are several other steps involved, like signing the package and updating metadata like screenshots, description etc. It is the same thing but you have to repeat it every time you publish your app. 
+
+ The good news is you can automate these tasks, saving your time for new features and bug fixing. All you have to do is use [Fastlane](https://fastlane.tools).
 
 In this tutorial, you will learn how to build a local fatslane pipeline that will automate common Android tasks for a simple Android application called **My Avatar**. You can find the source code on [Github](https://github.com/devplanet-dp/my_avatar). By the end, you will learn how to:
 
