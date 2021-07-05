@@ -1,0 +1,42 @@
+
+default_platform(:android)
+
+platform :android do
+  desc "Runs all the tests"
+  lane :test do
+    gradle(task: "test")
+  end
+ desc "Build"
+ lane :build do
+  gradle(task: "clean assembleRelease")
+ end
+ 
+  desc "Build release app bundle"
+ lane :build_bundle do
+  gradle(task: "clean bundleRelease")
+ end
+ 
+ desc "Capture Screen"
+ lane :capture_screen do
+  gradle(task: "clean assembleDebug assembleAndroidTest")
+  screengrab
+end  
+
+  desc "Submit a new Beta Build to Crashlytics Beta"
+  lane :beta do
+	build
+   firebase_app_distribution(
+      app: "1:733973662153:android:96a0d652bf41e0ca784018",
+      groups: "group-one",
+      release_notes: "Lots of new avatars to try out!"
+  )
+  end
+
+  desc "Deploy a new version to the Google Play"
+  lane :deploy do
+    #1
+    build_bundle
+    #2
+    upload_to_play_store(release_status:"draft")
+  end
+end
