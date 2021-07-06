@@ -1,5 +1,6 @@
 
-# How to Build the Perfect Fastlane Pipeline for Android
+
+# How to Build the Perfect fastlane Pipeline for Android
 
 During a typical Android app development cycle whenever you release or update your app, you have to assemble the source code into **APK** or **App Bundle** which you deploy to the Play Store. It seems like a simple process but there are several other steps involved, like signing the package and updating metadata like screenshots, descriptions, changelogs, etc. It is the same thing but you have to repeat it every time you publish your app. 
 
@@ -66,7 +67,7 @@ Once the fastlane completed installing the required dependencies, you will promp
 * **Appfile** - file containing your package and signing information.
 * **Fastfile** - file containing automation configurations and lanes. 
 
-## Configuring Fastlane
+## Understanding actions and lanes
 
 Fastlane uses **Fastfile** to keep its automation configurations. fastlane groups different **actions** into **lanes**. A lane starts with `lane:name` where `name` is the name given to a lane. There is also **description** for a lane. Open the **Fastfile** and you will see:
 
@@ -104,12 +105,76 @@ As you can see there are already three lanes: **test, beta, deploy** inside the 
 
 ## Building your app with fastlane
 
-You can use fastlane [gradle](https://docs.fastlane.tools/actions/gradle/) for all Gradle related actions, including building and testing your Android app. Open the **Fastfile** and add the following the `build` lane and save the file:
+You can use fastlane [gradle](https://docs.fastlane.tools/actions/gradle/) for all Gradle related actions, including building and testing your Android app. You can configure the **gradle** action with provided parameters by fastlane. Here are some of them. 
+### Build types
+ When you create a new Android project, you get two build types as `debug` and `release`.  You can add your configurations inside each **buid type**, if you want to add or change certain settings.  The following code shows build type settings using in the My Avatar project. 
+```
+buildTypes {  
+  debug {  
+  applicationIdSuffix ".debug"  
+  debuggable true  
+  }  
+  
+  release {  
+  signingConfig signingConfigs.release  
+  minifyEnabled false  
+  proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'  
+  }  
+}
+```
+### Product flavors
+Product flavors are similar to creating build types. The flavors can provide their features to your gradle task.  You can read more on [product flavors](https://developer.android.com/studio/build/build-variants) if you haven't created them already. Here is an example of product flavors, which can be added to your project:
+```
+flavorDimensions "version"  
+productFlavors {  
+  create("demo") {  
+  dimension = "version"  
+  applicationIdSuffix = ".demo"  
+  versionNameSuffix = "-demo"  
+  }  
+  create("full") {  
+  dimension = "version"  
+  applicationIdSuffix = ".full"  
+  versionNameSuffix = "-full"  
+  }  
+}
+```
+### Incrementing Version Code
+Version code is a critical component of your app update and maintenance strategy. The `version code` determines whether one version is more recent than another. You need to increase the value of `version code` with each release, regardless of whether the release is a major or minor. To update your `version code`, you have to edit your app's `build.gradle`  again and again. 
+
+Versioning is now much easier with fastlane. You only have to do is add the plugin below:
+```
+fastlane add_plugin increment_version_code
+```
+ 
+Once the plugin installed successfully, open the **Fastfile** and add the **lane** below to increment `version code` automatically:
+```
+ desc "Increment version code"
+  lane :increment_vc do
+  increment_version_code(
+        gradle_file_path: "./app/build.gradle",
+    
+  )
+  ```
+
+Now, run the lane in your Terminal:
+```
+fastlane increment_vc
+```
+Once the execution is completed, check your `version code` inside `build.gradle` file. It has been incremented right?. How cool is that!. Now, It is time to add this lane for every build hereafter. It will take care of versioning. 
+
+### Configuring build lane
+Now you have an idea on adding **build types** and **flavors** to your project. You can define them with fastlane **gradle** task. Open the **Fastfile** and add the following the `build` lane and save the file:
 
 ```
 desc "Build"
 lane :build do
-  gradle(task: "clean assembleRelease")
+ 
+   gradle(
+      task: "assemble",
+      flavor: "demo",
+      build_type: "Release"
+    )
 end
 ```
 
@@ -627,15 +692,18 @@ Update your **deploy** lane inside **Fastfile** with following configurations:
 ```
 desc "Deploy a new version to the Google Play"
   lane :deploy do
-    #1
-    build_bundle
+	#1
+    increment_vc
     #2
+    build_bundle
+    #3
     upload_to_play_store(release_status:"draft")
   end
   ```
 
- 1. **build_bundle**: The build release app bundle lane was created by you previously. Remember to increment your app's `version_code` on every release.
- 2. **upload_to_play_store**: Uploads Android App Bundle to Play Console. `release_status` property is used to maintain the status of the apks/aabs when uploaded. You can find more parameters available on **supply** [here](https://docs.fastlane.tools/actions/supply/).
+ 1. **increment_vc**: The lane you created previously to increment your app's `version code`.
+ 2. **build_bundle**: The build release app bundle lane was created by you previously. 
+ 3. **upload_to_play_store**: Uploads Android App Bundle to Play Console. `release_status` property is used to maintain the status of the apks/aabs when uploaded. You can find more parameters available on **supply** [here](https://docs.fastlane.tools/actions/supply/).
 
 Now you can just run ``fastlane deploy`` and fastlane will take care of everything in your new release. When the command completes, you can see your new build appears in **Play Console**.
 
@@ -643,6 +711,6 @@ Now you can just run ``fastlane deploy`` and fastlane will take care of everythi
 
 In this tutorial, you built a Pipeline for Android development workflows using  **fastlane**. It adds value to your regular Android development workflow by saving hours that you have spent on building, testing, and releasing apps. You can make your automation task more advanced and suited for your exact needs when you become comfortable with it.
 
-If you are interested in other ways to handle this and get more ideas, check out  [official documentation](https://fastlane.tools/). Hopefully, you got an idea of how you could automate your next iOS project.
+If you are interested in other ways to handle this and get more ideas, check out  [official documentation](https://fastlane.tools/). Hopefully, you got an idea of how you could automate your next Android project.
 
 [Runway](https://www.runway.team/features)  has brought the automation process of mobile app development to the next level. It is designed to work as an integration layer across all the team’s tools. This brings more value to you rather than seeing all of them in Terminal. How if you can schedule an automatic release?. Yes, it is achievable with Runway. There are many advanced features with  **Runway**  where you can thinking to switch from  **Fastlane**  such as visualizing and sharing the release progress with your team members, scheduling a release, handling App Store Connect and Google Play Console in one place, and many more. Every team member can see exactly where they are in the release cycle and what still needs to be done. Finally  **Runway**  is a tool that is worth trying with your mobile development.
