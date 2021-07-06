@@ -6,9 +6,22 @@ platform :android do
   lane :test do
     gradle(task: "test")
   end
+  
+  desc "Increment version code"
+  lane :increment_vc do
+  increment_version_code(
+        gradle_file_path: "./app/build.gradle",
+    
+  )
+end
  desc "Build"
  lane :build do
-  gradle(task: "clean assembleRelease")
+ increment_vc
+  gradle(
+      task: "assemble",
+      flavor: "demo",
+      build_type: "Release"
+    )
  end
  
   desc "Build release app bundle"
