@@ -35,7 +35,7 @@ end
   screengrab
 end  
 
-  desc "Submit a new Beta Build to Crashlytics Beta"
+  desc "Submit a new Beta Build to Firebase App Distribution"
   lane :beta do
 	build
    firebase_app_distribution(
