@@ -2,13 +2,16 @@ package com.devplanet.myavatar
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_main.*
+import com.devplanet.myavatar.databinding.ActivityMainBinding
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         val avatarArray: Array<Int> = arrayOf(
                 R.drawable.avatar_1,
@@ -16,9 +19,9 @@ class MainActivity : AppCompatActivity() {
                 R.drawable.avatar_3,
                 R.drawable.avatar_4,
         )
-        ivAvatar.setImageResource(R.drawable.avatar_1)
-        genrateButton.setOnClickListener {
-            ivAvatar.setImageResource(avatarArray[(0..3).random()])
+        binding.ivAvatar.setImageResource(R.drawable.avatar_1)
+        binding.genrateButton.setOnClickListener {
+            binding.ivAvatar.setImageResource(avatarArray[(0..3).random()])
         }
     }
     private fun ClosedRange<Int>.random() = Random().nextInt((endInclusive + 1) - start) + start
