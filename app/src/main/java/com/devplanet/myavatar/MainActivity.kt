@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
                 R.drawable.avatar_4,
         )
         binding.ivAvatar.setImageResource(R.drawable.avatar_1)
-        binding.genrateButton.setOnClickListener {
+        binding.generateButton.setOnClickListener {
             binding.ivAvatar.setImageResource(avatarArray[(0..3).random()])
         }
     }
