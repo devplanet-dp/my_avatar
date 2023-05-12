@@ -39,29 +39,21 @@ Build
 
 Build debug, test APK for screenshots and grab screenshots
 
-### android test
-
-```sh
-[bundle exec] fastlane android test
-```
-
-Runs all the tests
-
 ### android beta
 
 ```sh
 [bundle exec] fastlane android beta
 ```
 
-Submit a new Beta Build to Crashlytics Beta
+Submit a new Beta Build to Firebase App Distribution
 
-### android deploy
+### android build_bundle
 
 ```sh
-[bundle exec] fastlane android deploy
+[bundle exec] fastlane android build_bundle
 ```
 
-Deploy a new version to the Google Play
+
 
 ----
 
