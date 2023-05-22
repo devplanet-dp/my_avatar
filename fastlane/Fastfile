@@ -57,8 +57,19 @@ platform :android do
    )
    end
 
+   desc "Build release app bundle"
    lane :build_bundle do
    gradle(task: "clean bundleRelease")
+   end
+
+   desc "Deploy a new version to the Google Play"
+   lane :deploy do
+      # The lane you created previously to increment your app’s `version code`.
+      increment_vc
+      # The build release app bundle lane you created previously.
+      build_bundle
+      # Uploads Android App Bundle to Play Console.
+      upload_to_play_store(release_status:"draft")
    end
 
 end

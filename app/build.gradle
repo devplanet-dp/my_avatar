@@ -35,7 +35,6 @@ android {
 
     buildTypes {
         debug {
-//            applicationIdSuffix ".debug"
             debuggable true
         }
 
@@ -43,21 +42,6 @@ android {
             signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
-
-
-    flavorDimensions "version"
-    productFlavors {
-        create("demo") {
-            dimension = "version"
-//            applicationIdSuffix = ".demo"
-//            versionNameSuffix = "-demo"
-        }
-        create("full") {
-            dimension = "version"
-//            applicationIdSuffix = ".full"
-//            versionNameSuffix = "-full"
         }
     }
 

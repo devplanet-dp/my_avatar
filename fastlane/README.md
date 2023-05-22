@@ -53,7 +53,15 @@ Submit a new Beta Build to Firebase App Distribution
 [bundle exec] fastlane android build_bundle
 ```
 
+Build release app bundle
 
+### android deploy
+
+```sh
+[bundle exec] fastlane android deploy
+```
+
+Deploy a new version to the Google Play
 
 ----
 

@@ -8,8 +8,8 @@ use_adb_root(true)
 app_package_name('com.devplanet.myavatar')
 
 # Paths for APK files, which you are creating via fastlane
-app_apk_path('app/build/outputs/apk/demo/debug/app-demo-debug.apk')
-tests_apk_path('app/build/outputs/apk/androidTest/demo/debug/app-demo-debug-androidTest.apk')
+app_apk_path('app/build/outputs/apk/debug/app-debug.apk')
+tests_apk_path('app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk')
 
 # Locations where you want to create screenshots. Add locales as required.
 locales(['en-US', 'fr-FR', 'it-IT'])
