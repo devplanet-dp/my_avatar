@@ -51,8 +51,8 @@ platform :android do
    desc "Submit a new Beta Build to Firebase App Distribution"
    lane :beta do
    build firebase_app_distribution(
-   app: "1:939243544694:android:bb476d7154c6286bb8bf57",
-   groups: "group-1",
+   app: "<YOUR_FIREBASE_APP_ID>",
+   groups: "group-one",
    release_notes: "Lots of new avatars to try out!"
    )
    end
