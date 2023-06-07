@@ -35,6 +35,7 @@ android {
 
     buildTypes {
         debug {
+            applicationIdSuffix ".debug"
             debuggable true
         }
 
@@ -44,6 +45,21 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    flavorDimensions "version"
+    productFlavors {
+        create("demo") {
+            dimension = "version"
+            applicationIdSuffix = ".demo"
+            versionNameSuffix = "-demo"
+        }
+        create("full") {
+            dimension = "version"
+            applicationIdSuffix = ".full"
+            versionNameSuffix = "-full"
+        }
+    }
+
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_11
